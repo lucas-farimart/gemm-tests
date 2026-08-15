@@ -1,0 +1,8 @@
+aux_rtl/booth_radix4.sv
+aux_rtl/mem_controller.sv
+aux_rtl/mem_model.sv
+aux_rtl/requant_unit.sv
+
+only_srams/only_srams.sv
+only_srams/tb_only_srams_v0.sv
+only_srams/tb_only_srams_v1.sv

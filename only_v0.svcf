@@ -1,0 +1,348 @@
+# SimVision Command Script (Thu Aug 13 10:02:49 -03 2026)
+#
+# Version 23.09.s003
+#
+# You can restore this configuration with:
+#
+#     simvision -input only.svcf
+#  or simvision -input only.svcf database1 database2 ...
+#
+
+
+#
+# Preferences
+#
+preferences set toolbar-Standard-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-txe_waveform_navigate-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set expand-attributes begin_time
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set toolbar-Windows-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Search-Console {
+  usual
+  position -anchor e
+}
+preferences set toolbar-txe_waveform_toggle-WaveWindow {
+  usual
+  position -pos 1
+}
+preferences set plugin-enable-groupscope 0
+preferences set toolbar-txe_waveform_view-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set standard-methodology-filtering 1
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+preferences set toolbar-SimControl-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Windows-WaveWindow {
+  usual
+  position -pos 2
+}
+preferences set toolbar-WaveZoom-WaveWindow {
+  usual
+  position -anchor w
+}
+preferences set toolbar-TimeSearch-WatchWindow {
+  usual
+  shown 0
+}
+
+#
+# PPE data
+#
+array set dbNames ""
+set dbNames(realName1) [database require waves  -hints {
+	file ./waves.shm/waves.trn
+	file /home/lucas.martins/workspace/mestrado/gemm_tests/waves.shm/waves.trn
+}]
+
+#
+# Conditions
+#
+set expression {tb_only_srams.DUT.word_W[31:0]}
+if {[catch {condition new -name  condition -expr $expression}] != ""} {
+    condition set -using condition -expr $expression
+}
+#
+# Groups
+#
+catch {group new -name INPUTS -overlay 0}
+catch {group new -name INPUT_MEM_CTRL -overlay 0}
+catch {group new -name WEIGHT_MEM_CTRL -overlay 0}
+catch {group new -name WEIGHTS -overlay 0}
+catch {group new -name {DUT IF} -overlay 0}
+group using INPUTS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.X[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.req_X}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.vld_X}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.valid_X}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_X[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.byte_X[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.base_X[15:0]}]} ] \
+    {### cdivider}
+group using INPUT_MEM_CTRL
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.valid_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.streamed}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.stream_ptr[1:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.start_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.req_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.rdata_i[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.pong[0:3]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.ping_read}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.ping[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.out_word[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.out_valid}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.out_byte[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.done_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.current_addr[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.base_i[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.addr_o[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.NS[3:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_input_mem_ctrl.CS[3:0]}]} ]
+group using WEIGHT_MEM_CTRL
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.valid_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.streamed}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.stream_ptr[1:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.start_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.req_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.rdata_i[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.ping[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.out_word[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.out_valid}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.out_byte[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.done_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.current_addr[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.base_i[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.addr_o[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.NS[3:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.u_weight_mem_ctrl.CS[3:0]}]} ]
+group using WEIGHTS
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.W[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.req_W}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.vld_W}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.valid_W}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_W[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.byte_W[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.base_W[15:0]}]} ]
+group using {DUT IF}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.requant_o[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.result_o[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.acc_o[31:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.mult_o[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_aux[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.partial_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_only_srams.vld_o}]} ]
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1016+-1+26}] != ""} {
+    window geometry "Waveform 1" 1920x1016+-1+26
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar select designbrowser
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 172 \
+    -units ns \
+    -valuewidth 75
+waveform baseline set -time 0
+
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.rstn}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.enb}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.DUT.done}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.y_idx}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.Y[0:7]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_srams.Y_ref[0:7]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups {{DUT IF}}]
+waveform format $groupId0 -namecolor #00ff99
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_only_srams.requant_o[7:0]}]} {-color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.result_o[31:0]}]} {-radix %d -color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.acc_o[31:0]}]} {-radix %d -color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.mult_o[15:0]}]} {-radix %d -color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_aux[15:0]}]} {-color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.partial_o}]} {-color #00ff99 -namecolor #00ff99}
+    {$dbNames(realName1)::[format {tb_only_srams.vld_o}]} {-color #00ff99 -namecolor #00ff99}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups INPUTS]
+waveform format $groupId0 -namecolor #0099ff
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.X[31:0]}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.req_X}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.vld_X}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.valid_X}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_X[15:0]}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.byte_X[7:0]}]} {-color #0099ff -namecolor #0099ff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.base_X[15:0]}]} {-radix %d -color #0099ff -namecolor #0099ff}
+    cdivider {}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+
+set groupId0 [waveform add -groups WEIGHTS]
+waveform format $groupId0 -namecolor #00ffff
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.W[31:0]}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.req_W}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.vld_W}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.valid_W}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.addr_W[15:0]}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.byte_W[7:0]}]} {-color #00ffff -namecolor #00ffff}
+    {$dbNames(realName1)::[format {tb_only_srams.DUT.base_W[15:0]}]} {-radix %d -color #00ffff -namecolor #00ffff}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+set id [waveform add -cdivider divider]
+
+waveform xview limits 0 2390ns
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 881x1014+1029+19
+
+#
+# Layout selection
+#
+
