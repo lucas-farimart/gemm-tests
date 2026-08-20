@@ -15,13 +15,12 @@ module mem_controller
 
     input  logic        start_i,
     input  logic        done_i,
-
     input  logic        valid_i,
     input  logic [15:0] base_i,
     input  logic [31:0] rdata_i,
+
     output logic        req_o,
     output logic [15:0] addr_o,
-
     output logic [7:0]  out_byte,
     output logic [31:0] out_word,
     output logic        out_valid
@@ -91,16 +90,16 @@ module mem_controller
             pong <= '{default: 0};
         else begin 
             if (ping_read) begin
-                pong[3] <= ping[31:24];
-                pong[2] <= ping[23:16];
-                pong[1] <= ping[15:8];
-                pong[0] <= ping[7:0];
+                pong[0] <= ping[31:24];
+                pong[1] <= ping[23:16];
+                pong[2] <= ping[15:8];
+                pong[3] <= ping[7:0];
             end
             else begin
-                for (int i=1; i<BYTES-1; ++i)
-                pong[i] <= pong[i-1];
-                pong[0] <= 'h0;
-                pong[BYTES-1] <= pong[BYTES-2];    
+                pong[3] <= pong[2];
+                pong[2] <= pong[1];
+                pong[1] <= pong[0];
+                pong[0] <= 'h0; 
             end
         end
     end
@@ -110,11 +109,13 @@ module mem_controller
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
         if (!rstn || done_i) stream_ptr <= 'h0;
-        else if(out_valid)    stream_ptr <= stream_ptr+1;
+        else if(out_valid)   stream_ptr <= stream_ptr+1;
     end
 
-    always_comb out_byte = pong[BYTES-1];
-    always_comb out_word = {pong[0],pong[2],pong[3],pong[3]};
     always_comb streamed = (stream_ptr == $clog2(BYTES));
+    always_comb out_byte = out_word[7:0];
+    always_comb out_word = {pong[0],pong[1],pong[2],pong[3]};
+    // always_comb out_word = {pong[3],pong[2],pong[1],pong[0]};
+    // always_comb out_byte = pong[BYTES-1];
 
 endmodule 

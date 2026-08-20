@@ -1,0 +1,9 @@
+aux_rtl/booth_radix4.sv
+aux_rtl/requant_unit.sv
+aux_rtl/mem_model.sv
+aux_rtl/mem_controller.sv
+aux_rtl/dclb_controller.sv
+aux_rtl/dclb.sv
+
+sram_dclb/sram_dclb.sv
+sram_dclb/tb_sram_dclb.sv

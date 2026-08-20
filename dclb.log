@@ -1,0 +1,130 @@
+xrun(64): 23.09-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	23.09-s003: Started on Aug 20, 2026 at 16:53:51 -03
+xrun
+	-sv
+	-64
+	-access +rwc
+	-timescale 1ns/1ns
+	-f sram_dclb/rtl.lst
+		aux_rtl/booth_radix4.sv
+		aux_rtl/requant_unit.sv
+		aux_rtl/mem_model.sv
+		aux_rtl/mem_controller.sv
+		aux_rtl/dclb_controller.sv
+		aux_rtl/dclb.sv
+		sram_dclb/sram_dclb.sv
+		sram_dclb/tb_sram_dclb.sv
+	-top tb_sram_dclb
+	-gui
+	-s
+Recompiling... reason: file './sram_dclb/sram_dclb.sv' is newer than expected.
+	expected: Thu Aug 20 16:51:31 2026
+	actual:   Thu Aug 20 16:53:48 2026
+file: sram_dclb/sram_dclb.sv
+	module worklib.sram_dclb:sv
+		errors: 0, warnings: 0
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Top level design units:
+		tb_sram_dclb
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.sram_dclb:sv <0x52393a65>
+			streams:  44, words: 12973
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 8       8
+		Registers:             139     139
+		Scalar wires:           40       -
+		Vectored wires:         34       -
+		Always blocks:         304      51
+		Initial blocks:          5       5
+		Cont. assignments:       2       2
+		Pseudo assignments:     43       -
+		Process Clocks:        268       2
+		Simulation timescale:  1ns
+	Writing initial simulation snapshot: worklib.tb_sram_dclb:sv
+xmsim: *W,NOMTDGUI: Multi-Threaded Dumping is disabled for interactive debug mode.
+SVSEED default: 1
+xcelium> 
+xcelium> source /Tools/cadence/XCELIUM2309/tools/xcelium/files/xmsimrc
+xcelium> 
+-------------------------------------
+Relinquished control to SimVision...
+# Restoring simulation environment...
+xcelium> input -quiet .reinvoke.sim
+xcelium> file delete .reinvoke.sim
+xcelium> run
+
+=================================
+ Activations (8,1)
+=================================
+
+ -96 (a0)   -35 (dd)    13 (0d)    48 (30)  -123 (85)    16 (10)    95 (5f)  -113 (8f)  
+
+
+=================================
+ Weights (8,8)
+=================================
+
+ 112 (70)  -121 (87)    56 (38)   105 (69)     5 (05)    66 (42)   -83 (ad)   -18 (ee)  
+  74 (4a)    12 (0c)   100 (64)    78 (4e)    64 (40)     8 (08)    87 (57)     6 (06)  
+ -45 (d3)   -20 (ec)  -113 (8f)    18 (12)   -67 (bd)   -73 (b7)    86 (56)    19 (13)  
+ 100 (64)   -22 (ea)   -80 (b0)   -99 (9d)   -14 (f2)    70 (46)    77 (4d)    94 (5e)  
+  94 (5e)  -112 (90)    -1 (ff)   -80 (b0)    69 (45)    22 (16)   104 (68)     4 (04)  
+ -18 (ee)    35 (23)  -124 (84)    93 (5d)    51 (33)    60 (3c)    -5 (fb)   -73 (b7)  
+-103 (99)     2 (02)   -30 (e2)   -63 (c1)    74 (4a)   118 (76)  -116 (8c)     3 (03)  
+ -31 (e1)    25 (19)   -68 (bc)    52 (34)  -108 (94)  -104 (98)    61 (3d)  -106 (96)  
+
+
+=================================
+ Files                             
+=================================
+
+Arquivo gerado: data/w.hex
+Arquivo gerado: data/x_dclb.hex
+
+
+[470ns] DUT: Y[0] = -6159
+[710ns] DUT: Y[1] = -2637
+[950ns] DUT: Y[2] = 17511
+[1190ns] DUT: Y[3] = -15087
+[1430ns] DUT: Y[4] = -7664
+[1670ns] DUT: Y[5] = 5816
+[1910ns] DUT: Y[6] = -12169
+[2150ns] DUT: Y[7] = 33106
+
+==========================================================
+                        COMPARACAO                        
+==========================================================
+
+----------------------------------------------------
+ STATUS |   Y index    |     DUT     |     REF     |
+----------------------------------------------------
+ PASS   |           0  |       -6159 |       -6159 |
+ PASS   |           1  |       -2637 |       -2637 |
+ PASS   |           2  |       17511 |       17511 |
+ PASS   |           3  |      -15087 |      -15087 |
+ PASS   |           4  |       -7664 |       -7664 |
+ PASS   |           5  |        5816 |        5816 |
+ PASS   |           6  |      -12169 |      -12169 |
+ PASS   |           7  |       33106 |       33106 |
+----------------------------------------------------
+
+
+*************************************
+         ___  ___   ________         
+        / _ \/ _ | / __/ __/        
+       / ___/ __ |_\ \_\ \       
+      /_/  /_/ |_/___/___/           
+                                     
+*************************************
+
+./sram_dclb/tb_sram_dclb.sv:332         $finish(0);
+xcelium> ^C
+xcelium> exit
+...Regained control from SimVision
+-------------------------------------
+TOOL:	xrun(64)	23.09-s003: Exiting on Aug 20, 2026 at 16:55:23 -03  (total: 00:01:32)

@@ -24,19 +24,19 @@ help:
 	@echo "|-----------------------------------|"
 	@echo "" 
 
-only_v0:
+only_srams:
 	clear
 	@cd only_srams
-	@echo "Running simulation with only SRAMs basic test (GUI)..."
+	@echo "Running simulation with only SRAMs (GUI)..."
 	$(XRUN) $(XRUN_FLAGS) -f only_srams/rtl.lst \
-	-top tb_only_srams_v0 -gui 
+	-top tb_only_srams -gui 
 
-only_v1:
+gpt:
 	clear
 	@cd only_srams
-	@echo "Running simulation with only SRAMs with random values (GUI)..."
+	@echo "Running simulation with only SRAMs (GPT)..."
 	$(XRUN) $(XRUN_FLAGS) -f only_srams/rtl.lst \
-	-top tb_only_srams_v1 -gui 
+	-top tb_only_gpt -gui 
 
 sram_dclb:
 	clear

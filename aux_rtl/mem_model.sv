@@ -11,7 +11,7 @@ module mem_model #(
     parameter DATA_WIDTH = 32,
     parameter MEM_WORDS  = 256,
     parameter LATENCY    = 2,
-	parameter MEM_FILE   = "..data/weights.hex"
+	parameter MEM_FILE   = "../data/w.hex"
 )(
     input  logic                  clk,
     input  logic                  rstn,
