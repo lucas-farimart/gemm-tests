@@ -43,15 +43,15 @@ module DCLB #(
 
     always_comb ctrl_rst = push_i && pop_i;
 
-    initial begin
-        #81ns;
-        $readmemh(MEM_FILE, stack);
-    end
+    // initial begin
+    //     #81ns;
+    //     $readmemh(MEM_FILE, stack);
+    // end
     //========================================================
     //  Ponteiro, Flags e Controle de Head/Tail
     //========================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || ctrl_rst) 
+        if (!rstn) 
             s_ptr <= '1;
         else begin
             case ({push_i, pop_i})
@@ -80,7 +80,7 @@ module DCLB #(
 
     // PRIMEIRA (head)
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || ctrl_rst ) 
+        if (!rstn ) 
             stack[0] <= '0;
         else begin
             case ({push_valid, pop_valid})
@@ -95,7 +95,7 @@ module DCLB #(
     generate
         for (genvar i=1; i<DEPTH-1; ++i) begin 
             always_ff @(posedge clk or negedge rstn) begin
-                if (!rstn || ctrl_rst ) 
+                if (!rstn ) 
                     stack[i] <= 'h0;
                 else begin
                     case ({push_valid, pop_valid})
@@ -109,7 +109,7 @@ module DCLB #(
 
     // ULTIMA (tail)
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || ctrl_rst ) 
+        if (!rstn ) 
             stack[DEPTH-1] <= '0;
         else begin
             case ({push_valid, pop_valid})

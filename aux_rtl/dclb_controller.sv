@@ -42,18 +42,19 @@ module dclb_controller
     //  STATES
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) 
+        if (!rstn) 
              CS <= IDLE;
         else CS <= NS;
     end
 
     always_comb begin
         case(CS)
-            IDLE:   NS = (start_i)  ? REQ    : IDLE;
-            WAIT:   NS = (valid_i)  ? STREAM : WAIT;
-            STREAM: NS = (streamed) ? DONE   : STREAM;
-            REQ:    NS = WAIT;
-            DONE:   NS = WAIT;
+            IDLE:    NS = (start_i)  ? REQ    : IDLE;
+            WAIT:    NS = (valid_i)  ? STREAM : WAIT;
+            STREAM:  NS = (streamed) ? DONE   : STREAM;
+            REQ:     NS = WAIT;
+            DONE:    NS = WAIT;
+            default: NS = CS;
         endcase
     end
 
@@ -61,11 +62,12 @@ module dclb_controller
     //  VALID OUTPUT CONTROL
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        valid_o <= (rstn) ? (CS==STREAM) : 0;
+        if (!rstn) valid_o <= '0;
+        else       valid_o <= (CS==STREAM);
     end
 
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) 
+        if (!rstn) 
             switch_dir <= '0;
         else if(vector_ptr == x_size_i)     
             switch_dir <= ~switch_dir;
@@ -75,12 +77,12 @@ module dclb_controller
     //  STREAM POINTER 
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) stream_ptr <= 'h0;
+        if (!rstn) stream_ptr <= 'h0;
         else if(valid_o)     stream_ptr <= stream_ptr+1;
     end
 
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) vector_ptr <= 'h0;
+        if (!rstn) vector_ptr <= 'h0;
         else if(vec_len_o)   vector_ptr <= 'h0;
         else if(valid_o)     vector_ptr <= vector_ptr+1;
     end

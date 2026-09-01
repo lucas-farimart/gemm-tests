@@ -9,9 +9,9 @@ WAVE_FLAGS = -input waves.tcl # ainda nao existe
 all: help
 .PHONY: all help only_srams sram_dclb clean
 
-#========================================================
-#                 COMANDOS DE SIMULACAO
-#========================================================
+#============================================================================
+#                            COMANDOS DE SIMULACAO
+#============================================================================
 help:
 	@echo "" 
 	@echo "Testes de Arquiteturas para Multipicação Matriz-Vetor"
@@ -44,3 +44,26 @@ sram_dclb:
 	@echo "Running simulation with SRAM + DCLB (GUI)..."
 	$(XRUN) $(XRUN_FLAGS) -f sram_dclb/rtl.lst \
 	-top tb_sram_dclb -gui 
+
+#============================================================================
+#                           COMANDOS DE SINTESE
+#============================================================================
+
+synth:
+	@echo " "            
+	@echo "|------------------------------------------|"   
+	@echo "|                                          |"                       
+	@echo "|    ()           _|_ |)    _  ,  o  ,     |"
+	@echo "|    /\ |  | /|/|  |  |/\  |/ / \_| / \_   |"
+	@echo "|   /(_) \/|/ | |_/|_/|  |/|_/ \/ |/ \/    |"
+	@echo "|         (|                               |"
+	@echo "|                                          |"                       
+	@echo "|---------------------|--------------------|" 
+	@echo "|       SINTESE       |    COMANDO MAKE    |"
+	@echo "|---------------------|--------------------|"
+	@echo "| SRAM com FFs        |   synth-simple     |"
+	@echo "| SRAM como macro     |   synth-realmem    |"
+	@echo "|---------------------|--------------------|"
+	@echo "" 
+	@echo " Change to directory synth/" 
+	@echo "" 

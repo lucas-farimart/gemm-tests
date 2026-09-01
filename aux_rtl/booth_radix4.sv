@@ -43,19 +43,18 @@ module booth_radix4 (
     //-------------------------------------------------
     always_ff @(posedge clk or negedge rstn) begin
         if (!rstn) begin
-            pp0_r   <= '0;
-            pp1_r   <= '0;
-            pp2_r   <= '0;
-            pp3_r   <= '0;
+            pp0_r    <= '0;
+            pp1_r    <= '0;
+            pp2_r    <= '0;
+            pp3_r    <= '0;
             valid_s1 <= 1'b0;
         end
         else begin
-            pp0_r   <= pp0_s1;
-            pp1_r   <= pp1_s1;
-            pp2_r   <= pp2_s1;
-            pp3_r   <= pp3_s1;
+            pp0_r    <= pp0_s1;
+            pp1_r    <= pp1_s1;
+            pp2_r    <= pp2_s1;
+            pp3_r    <= pp3_s1;
             valid_s1 <= valid_in;
-
         end
     end
 
@@ -100,7 +99,7 @@ module booth_radix4 (
             3'b011:        booth_pp =  (multiplicand <<< 1) <<< shift;
             3'b100:        booth_pp = -((multiplicand <<< 1) <<< shift);
             3'b101,3'b110: booth_pp = -(multiplicand <<< shift);
-            default:       booth_pp = 16'sd0;
+            // default:       booth_pp = 16'sd0;
         endcase
 
     endfunction

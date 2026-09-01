@@ -1,0 +1,357 @@
+# SimVision Command Script (Thu Aug 20 16:55:13 -03 2026)
+#
+# Version 23.09.s003
+#
+# You can restore this configuration with:
+#
+#     simvision -input dclb.svcf
+#  or simvision -input dclb.svcf database1 database2 ...
+#
+
+
+#
+# Preferences
+#
+preferences set toolbar-Standard-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-txe_waveform_navigate-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set expand-attributes begin_time
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set toolbar-Windows-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Search-Console {
+  usual
+  position -anchor e
+}
+preferences set toolbar-txe_waveform_toggle-WaveWindow {
+  usual
+  position -pos 1
+}
+preferences set plugin-enable-groupscope 0
+preferences set toolbar-txe_waveform_view-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set standard-methodology-filtering 1
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+preferences set toolbar-SimControl-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Windows-WaveWindow {
+  usual
+  position -pos 2
+}
+preferences set toolbar-WaveZoom-WaveWindow {
+  usual
+  position -anchor w
+}
+preferences set toolbar-TimeSearch-WatchWindow {
+  usual
+  shown 0
+}
+
+#
+# PPE data
+#
+array set dbNames ""
+set dbNames(realName1) [database require waves  -hints {
+	file ./waves.shm/waves.trn
+	file /home/lucas.martins/workspace/mestrado/gemm_tests/waves.shm/waves.trn
+}]
+#
+# Groups
+#
+catch {group new -name {DCLB CONTROL} -overlay 0}
+catch {group new -name {MEM CONTROL} -overlay 0}
+catch {group new -name {DCLB [0:8]} -overlay 0}
+group using {DCLB CONTROL}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.rc_pop_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.rc_push_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.streamed}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.switch_dir}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.valid_i}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.valid_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.stream_ptr[1:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.vector_ptr[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.x_size_i[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.CS[3:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.NS[3:0]}]} ]
+group using {MEM CONTROL}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.addr_o[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.base_i[15:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.out_byte[7:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.req_o}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.stream_ptr[1:0]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.streamed}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.valid_i}]} ]
+group using {DCLB [0:8]}
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[8]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[7]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[6]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[5]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[4]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[3]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[2]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[1]}]} ] \
+    [subst  {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[0]}]} ]
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1043+1919+-1}] != ""} {
+    window geometry "Waveform 1" 1920x1043+1919+-1
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar select designbrowser
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units ns \
+    -valuewidth 75
+waveform baseline set -time 0
+
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.rstn}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.enb}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.done}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.X[0:7]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.Y[0:7]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.Y_ref[0:7]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.vld_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.partial_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.mult_o[15:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.acc_o[31:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.result_o[31:0]}]}
+	} ]]
+waveform hierarchy collapse $id
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.requant_o[7:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.byte_W[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.byte_X[7:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups {{MEM CONTROL}}]
+waveform format $groupId0 -namecolor #e1a8ee
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.addr_o[15:0]}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.base_i[15:0]}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.out_byte[7:0]}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.req_o}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.stream_ptr[1:0]}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.streamed}]} {-color #e1a8ee}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_weight_mem_ctrl.valid_i}]} {-color #e1a8ee}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+
+set groupId0 [waveform add -groups {{DCLB CONTROL}}]
+waveform format $groupId0 -namecolor #00c0e8
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.rc_pop_o}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.rc_push_o}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.streamed}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.switch_dir}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.valid_i}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.valid_o}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.stream_ptr[1:0]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.vector_ptr[7:0]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.x_size_i[7:0]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.CS[3:0]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb_ctrl.NS[3:0]}]} {-color #00c0e8}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.data_tail_o[7:0]}]}
+	} ]]
+waveform format $id -color #00c0e8
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.data_head_o[7:0]}]}
+	} ]]
+waveform format $id -color #00c0e8
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.recirc_pop_i}]}
+	} ]]
+waveform format $id -color #00c0e8
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.recirc_push_i}]}
+	} ]]
+waveform format $id -color #00c0e8
+
+set groupId0 [waveform add -groups {{DCLB [0:8]}}]
+waveform format $groupId0 -namecolor #00ffff
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[8]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[7]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[6]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[5]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[4]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[3]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[2]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[1]}]} {-color #00c0e8}
+    {$dbNames(realName1)::[format {tb_sram_dclb.DUT.u_input_dclb.stack[0]}]} {-color #00c0e8}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+
+waveform xview limits 0 741ns
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 960x1016+949+19
+
+#
+# Layout selection
+#
+

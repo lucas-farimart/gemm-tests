@@ -175,14 +175,16 @@ module sram_dclb #(
     always_comb partial_o =  reset_acc && !partial_r; 
 
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || reset_acc) 
+        // if (!rstn || reset_acc)
+        if (!rstn) 
             acc_o <= '0;
         else if (vld_o) 
             acc_o <= acc_o + mult_o;
     end
 
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || reset_acc) 
+        // if (!rstn || reset_acc)
+        if (!rstn) 
             size_count <= '0;
         else if (vld_o) 
             size_count <= size_count + 1;

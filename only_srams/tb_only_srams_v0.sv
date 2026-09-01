@@ -6,7 +6,7 @@
 // Date:   06/08/2026
 //=====================================================================
 
-module tb_only_srams;
+module tb_only_srams_v0;
 
     localparam ADDR_WIDTH = 16;
     localparam DATA_WIDTH = 32;

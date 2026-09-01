@@ -44,18 +44,19 @@ module mem_controller
     //  STATES
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) 
+        if (!rstn) 
              CS <= IDLE;
         else CS <= NS;
     end
 
     always_comb begin
         case(CS)
-            IDLE:   NS = (start_i)  ? REQ    : IDLE;
-            WAIT:   NS = (valid_i)  ? STREAM : WAIT;
-            STREAM: NS = (streamed) ? DONE   : STREAM;
-            REQ:    NS = WAIT;
-            DONE:   NS = WAIT;
+            IDLE:    NS = (start_i)  ? REQ    : IDLE;
+            WAIT:    NS = (valid_i)  ? STREAM : WAIT;
+            STREAM:  NS = (streamed) ? DONE   : STREAM;
+            REQ:     NS = WAIT;
+            DONE:    NS = WAIT;
+            default: NS = CS;
         endcase
     end
 
@@ -63,7 +64,7 @@ module mem_controller
     //  BUFFERS ADDRESS
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i || start_i) 
+        if (!rstn) 
             current_addr <= 'h0;
         else if (valid_i) 
             current_addr <= (current_addr == base_i) ? '0 : current_addr + 1;
@@ -76,17 +77,24 @@ module mem_controller
     //  DOUBLE BUFFERING (PING and PONG)
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i)  ping <= 'h0;
-        else if (valid_i) ping <= rdata_i;
+        if (!rstn)  
+            ping <= 'h0;
+        else if (valid_i) 
+            ping <= rdata_i;
     end
 
     always_ff @(posedge clk or negedge rstn) begin
-        ping_read <= (rstn) ? (NS==STREAM) && (CS==WAIT) : 0;
-        out_valid <= (rstn) ? (CS==STREAM) : 0;
+        if(!rstn) begin
+            ping_read <= 0;
+            out_valid <= 0;
+        end else begin
+            ping_read <= (NS==STREAM) && (CS==WAIT);
+            out_valid <= (CS==STREAM);
+        end
     end
 
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) 
+        if (!rstn ) 
             pong <= '{default: 0};
         else begin 
             if (ping_read) begin
@@ -108,8 +116,8 @@ module mem_controller
     //  STREAM POINTER 
     //======================================================
     always_ff @(posedge clk or negedge rstn) begin
-        if (!rstn || done_i) stream_ptr <= 'h0;
-        else if(out_valid)   stream_ptr <= stream_ptr+1;
+        if (!rstn)         stream_ptr <= 'h0;
+        else if(out_valid) stream_ptr <= stream_ptr+1;
     end
 
     always_comb streamed = (stream_ptr == $clog2(BYTES));

@@ -1,0 +1,172 @@
+# SimVision Command Script (Fri Aug 14 14:46:15 -03 2026)
+#
+# Version 23.09.s003
+#
+# You can restore this configuration with:
+#
+#     simvision -input only_plus.svcf
+#  or simvision -input only_plus.svcf database1 database2 ...
+#
+
+
+#
+# Preferences
+#
+preferences set toolbar-Standard-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-txe_waveform_navigate-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set expand-attributes begin_time
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set toolbar-Windows-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Search-Console {
+  usual
+  position -anchor e
+}
+preferences set toolbar-txe_waveform_toggle-WaveWindow {
+  usual
+  position -pos 1
+}
+preferences set plugin-enable-groupscope 0
+preferences set toolbar-txe_waveform_view-WaveWindow {
+  usual
+  shown 1
+  position -row 3
+}
+preferences set standard-methodology-filtering 1
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+preferences set toolbar-SimControl-WatchWindow {
+  usual
+  shown 0
+}
+preferences set toolbar-Windows-WaveWindow {
+  usual
+  position -pos 2
+}
+preferences set toolbar-WaveZoom-WaveWindow {
+  usual
+  position -anchor w
+}
+preferences set toolbar-TimeSearch-WatchWindow {
+  usual
+  shown 0
+}
+
+#
+# PPE data
+#
+array set dbNames ""
+set dbNames(realName1) [database require waves  -hints {
+	file ./waves.shm/waves.trn
+	file /home/lucas.martins/workspace/mestrado/gemm_tests/waves.shm/waves.trn
+}]
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1016+-1+26}] != ""} {
+    window geometry "Waveform 1" 1920x1016+-1+26
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar select designbrowser
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units ns \
+    -valuewidth 75
+waveform baseline set -time 0
+
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.rstn}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.enb}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.done}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.vld_o}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.partial_o}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.requant_o[7:0]}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.result_o[31:0]}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.mult_o[15:0]}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.acc_o[31:0]}]}
+	} ]]
+waveform format $id -color #00ff99
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.X[0:15]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.Y[0:15]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.Y_ref[0:15]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.DUT.byte_W[7:0]}]}
+	} ]]
+waveform format $id -color #00ffff
+set id [waveform add -signals [subst  {
+	{$dbNames(realName1)::[format {tb_only_gpt.DUT.byte_X[7:0]}]}
+	} ]]
+waveform format $id -color #00ffff
+
+waveform xview limits 0 7990ns
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 929x1043+1910+-8
+
+#
+# Layout selection
+#
+

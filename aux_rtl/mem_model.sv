@@ -30,13 +30,13 @@ module mem_model #(
     logic [ADDR_WIDTH-1:0] latched_addr;
     integer                latency_counter;
 
-    initial $readmemh(MEM_FILE, mem);
+    // initial $readmemh(MEM_FILE, mem);
 
     //=========================================================
     // Modelo
     //=========================================================
 
-    always_ff @(posedge clk or posedge rstn) begin
+    always_ff @(posedge clk or negedge rstn) begin
 
         if (!rstn) begin
             valid  <= 0;     cooldown         <= 0;
